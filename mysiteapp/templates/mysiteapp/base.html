@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Parent-Teacher Communication{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Parent-Teacher Communication App</h1>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register_user' %}">Register New User</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'messages' %}">Messages</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'progress_updates' %}">Progress Updates</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'meetings' %}">Meetings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        <footer>
+            <p>&copy; 2024 Parent-Teacher Communication App</p>
+        </footer>
+    </div>
+</body>
+</html>

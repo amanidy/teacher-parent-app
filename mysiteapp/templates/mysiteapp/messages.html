@@ -1,0 +1,25 @@
+{% extends 'mysiteapp/base.html' %}
+
+{% block title %}Messages{% endblock %}
+
+{% block content %}
+<h2>Messages</h2>
+<a href="{% url 'index' %}" class="btn btn-secondary">Logout</a>
+<ul class="list-group my-4">
+    {% for message in messages %}
+        <li class="list-group-item">
+            <strong>{{ message.sender.username }}</strong>: {{ message.content }} 
+            <small class="text-muted float-right">{{ message.timestamp }}</small>
+        </li>
+    {% endfor %}
+</ul>
+
+<h3>Send a New Message</h3>
+<form action="{% url 'messages' %}" method="post" class="border p-4 rounded">
+    {% csrf_token %}
+    <div class="form-group">
+        <textarea class="form-control" name="content" rows="4" placeholder="Type your message here" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
+{% endblock %}

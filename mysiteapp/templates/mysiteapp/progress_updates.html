@@ -1,0 +1,16 @@
+{% extends 'mysiteapp/base.html' %}
+
+{% block title %}Progress Updates{% endblock %}
+
+{% block content %}
+<h2>Progress Updates</h2>
+<a href="{% url 'index' %}" class="btn btn-secondary">Logout</a>
+<ul class="list-group my-4">
+    {% for update in updates %}
+        <li class="list-group-item">
+            <strong>{{ update.student_name }}</strong>: {{ update.update_text }}
+            <small class="text-muted float-right">{{ update.timestamp }}</small>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

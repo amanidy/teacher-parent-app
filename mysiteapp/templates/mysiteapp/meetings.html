@@ -1,0 +1,16 @@
+{% extends 'mysiteapp/base.html' %}
+
+{% block title %}Meetings{% endblock %}
+
+{% block content %}
+<h2>Meetings</h2>
+<a href="{% url 'index' %}" class="btn btn-secondary">Logout</a>
+<ul class="list-group my-4">
+    {% for meeting in meetings %}
+        <li class="list-group-item">
+            <strong>Meeting with {{ meeting.teacher.username }}</strong>: {{ meeting.agenda }}
+            <small class="text-muted float-right">{{ meeting.meeting_date }}</small>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
