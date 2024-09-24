@@ -10,6 +10,9 @@ from .forms import MessageForm, ProgressUpdateForm, MeetingForm,AdminUserCreatio
 def is_staff_user(user):
     return user.is_staff
 
+def is_parent(user):
+    return user.role =='parent'
+
 def register_user(request):
     if request.method == 'POST':
         form = AdminUserCreationForm(request.POST)
@@ -25,8 +28,10 @@ def register_user(request):
 def base(request):
     return render(request, 'mysiteapp/base.html')
 
+@user_passes_test(is_parent)
 @login_required
 def messages_view(request):
+    messages = Message.objects.filter(recipient=request.user)
     if request.method == 'POST':
         form = MessageForm(request.POST)
         if form.is_valid():
@@ -35,8 +40,6 @@ def messages_view(request):
             message.save()
             return redirect('messages')
     
-    messages = Message.objects.all()
-    form = MessageForm()
     return render(request, 'mysiteapp/messages.html', {'messages': messages, 'form': form})
 
 # Progress updates view - protected

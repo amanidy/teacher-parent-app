@@ -1,17 +1,17 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # User model corresponding to the 'users' table
-class User(models.Model):
+class User(AbstractUser):
     ROLE_CHOICES = [
         ('parent', 'Parent'),
         ('teacher', 'Teacher')
     ]
 
-    username = models.CharField(max_length=50, unique=True)
-    email = models.EmailField(max_length=100, unique=True)
-    password = models.CharField(max_length=100)
-    role = models.CharField(max_length=7, choices=ROLE_CHOICES)
+    
+    role = models.CharField(max_length=50, choices=[('parent', 'Parent'), ('teacher', 'Teacher')]) 
     created_at = models.DateTimeField(auto_now_add=True)
+    parent_to = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         db_table = 'users'  # Reference to the existing table in MySQL

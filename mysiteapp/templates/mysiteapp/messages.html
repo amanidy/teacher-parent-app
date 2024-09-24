@@ -7,6 +7,11 @@
 <a href="{% url 'index' %}" class="btn btn-secondary">Logout</a>
 <ul class="list-group my-4">
     {% for message in messages %}
+    {% if message.recipient == user %}
+       <div class="message">
+        <p>{{message.content}}</p>
+       </div>
+       {% endif%}
         <li class="list-group-item">
             <strong>{{ message.sender.username }}</strong>: {{ message.content }} 
             <small class="text-muted float-right">{{ message.timestamp }}</small>
