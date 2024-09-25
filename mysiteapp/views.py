@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required,user_passes_test
 from .models import Message, ProgressUpdate, Meeting
 from .forms import MessageForm, ProgressUpdateForm, MeetingForm,AdminUserCreationForm
+from django.contrib import messages
 
 
 def is_staff_user(user):
@@ -81,8 +82,9 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('messages')  
+            return redirect('index')  
         else:
+            messages.info(request,'Please register before logging in to usse the application')
             return render(request, 'mysiteapp/login.html', {'error': 'Invalid credentials'})
     return render(request, 'mysiteapp/login.html')
 
