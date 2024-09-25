@@ -54,7 +54,8 @@ def progress_updates_view(request):
             update.teacher = request.user
             update.save()
             return redirect('progress_updates')
-    
+        else:
+            messages.info(request,'Please register before logging in to usse the application')
     updates = ProgressUpdate.objects.all()
     form = ProgressUpdateForm()
     return render(request, 'mysiteapp/progress_updates.html', {'updates': updates, 'form': form})
@@ -69,7 +70,8 @@ def meetings_view(request):
             meeting.teacher = request.user
             meeting.save()
             return redirect('meetings')
-    
+        else:
+            messages.info(request,'Please register before logging in to usse the application')
     meetings = Meeting.objects.all()
     form = MeetingForm()
     return render(request, 'mysiteapp/meetings.html', {'meetings': meetings, 'form': form})
@@ -82,7 +84,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('index')  
+            return redirect('messages')  
         else:
             messages.info(request,'Please register before logging in to usse the application')
             return render(request, 'mysiteapp/login.html', {'error': 'Invalid credentials'})

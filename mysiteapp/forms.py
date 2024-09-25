@@ -27,6 +27,7 @@ class AdminUserCreationForm(UserCreationForm):
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
+        #make sure the reply i see it in my django admin side
         fields = ['receiver', 'content']  
         widgets = {
             'content': forms.Textarea(attrs={'placeholder': 'Type your message here...', 'rows': 4}),
