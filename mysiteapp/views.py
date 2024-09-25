@@ -31,7 +31,7 @@ def base(request):
 @user_passes_test(is_parent)
 @login_required
 def messages_view(request):
-    messages = Message.objects.filter(recipient=request.user)
+    messages = Message.objects.filter(receiver=request.user)
     if request.method == 'POST':
         form = MessageForm(request.POST)
         if form.is_valid():
@@ -39,7 +39,8 @@ def messages_view(request):
             message.sender = request.user
             message.save()
             return redirect('messages')
-    
+    else:
+        form = MessageForm()
     return render(request, 'mysiteapp/messages.html', {'messages': messages, 'form': form})
 
 # Progress updates view - protected
@@ -80,7 +81,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('index')  
+            return redirect('messages')  
         else:
             return render(request, 'mysiteapp/login.html', {'error': 'Invalid credentials'})
     return render(request, 'mysiteapp/login.html')

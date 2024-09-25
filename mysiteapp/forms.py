@@ -31,6 +31,7 @@ class MessageForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={'placeholder': 'Type your message here...', 'rows': 4}),
         }
+        initial = {'content': 'Hello, I hope this message finds you well. I wanted to reach out to you about your child\'s progress.'}
 
 class ProgressUpdateForm(forms.ModelForm):
     class Meta:
@@ -39,6 +40,7 @@ class ProgressUpdateForm(forms.ModelForm):
         widgets = {
             'update_text': forms.Textarea(attrs={'placeholder': 'Enter progress update...', 'rows': 4}),
         }
+        initial = {'update_text': 'Your child has been making good progress in class. They have been actively participating in lessons and completing their homework on time.'}
 
 class MeetingForm(forms.ModelForm):
     class Meta:
@@ -47,3 +49,4 @@ class MeetingForm(forms.ModelForm):
         widgets = {
             'agenda': forms.Textarea(attrs={'placeholder': 'Enter agenda for the meeting...', 'rows': 4}),
         }
+        initial = {'agenda': 'Discussion of student\'s progress, goals, and areas for improvement.'}

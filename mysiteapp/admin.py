@@ -7,6 +7,11 @@ class UserAdmin(admin.ModelAdmin):
     form = AdminUserCreationForm
     list_display = ['username', 'role', 'parent_to', 'is_staff', 'is_superuser']
     search_fields = ['username', 'first_name', 'last_name', 'email']
+    fieldsets = (
+        (None, {
+            'fields': ('username', 'email', 'password1', 'password2', 'role', 'parent_to')
+        }),
+    )
     
     def send_message_to_parent(self, request, queryset):
         parents = queryset.filter(role='parent')
@@ -17,7 +22,7 @@ class UserAdmin(admin.ModelAdmin):
                 content = f'Hello {user.username}, please check your child {child_name}\'s progress updates.'
                 Message.objects.create(
                     sender=request.user,
-                    recipient=user,
+                    receiver=user,
                     content=content
                 )
                 messages_sent += 1

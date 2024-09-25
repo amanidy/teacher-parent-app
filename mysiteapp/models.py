@@ -7,14 +7,14 @@ class User(AbstractUser):
         ('parent', 'Parent'),
         ('teacher', 'Teacher')
     ]
-
     
-    role = models.CharField(max_length=50, choices=[('parent', 'Parent'), ('teacher', 'Teacher')]) 
+    email = models.EmailField(unique=True, max_length=100)
+    role = models.CharField(max_length=7, choices=ROLE_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
-    parent_to = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    parent_to = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
-        db_table = 'users'  # Reference to the existing table in MySQL
+        db_table = 'users'
 
     def __str__(self):
         return self.username
