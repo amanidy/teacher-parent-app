@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from .models import Message, ProgressUpdate, Meeting
 from .forms import MessageForm, ProgressUpdateForm, MeetingForm,AdminUserCreationForm
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 
 def is_staff_user(user):
@@ -32,17 +34,25 @@ def base(request):
 @user_passes_test(is_parent)
 @login_required
 def messages_view(request):
-    messages = Message.objects.filter(receiver=request.user)
+    messages_received = Message.objects.filter(receiver=request.user)
+    messages_sent = Message.objects.filter(sender=request.user)
+    User = get_user_model()
+    users = User.objects.all()
     if request.method == 'POST':
         form = MessageForm(request.POST)
         if form.is_valid():
             message = form.save(commit=False)
             message.sender = request.user
+            message.receiver = User.objects.get(id=request.POST['receiver'])
             message.save()
             return redirect('messages')
     else:
         form = MessageForm()
-    return render(request, 'mysiteapp/messages.html', {'messages': messages, 'form': form})
+    return render(request, 'mysiteapp/messages.html', {
+        'messages_received': messages_received, 
+        'messages_sent': messages_sent,
+          'form': form,
+          'users_list': users})
 
 # Progress updates view - protected
 @login_required

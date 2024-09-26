@@ -26,6 +26,8 @@ class Message(models.Model):
     receiver = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    reply_to = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+
 
     class Meta:
         db_table = 'messages'  # Reference to the existing table in MySQL

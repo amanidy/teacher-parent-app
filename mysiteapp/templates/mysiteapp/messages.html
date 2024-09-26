@@ -5,26 +5,49 @@
 {% block content %}
 <h2>Messages</h2>
 <a href="{% url 'index' %}" class="btn btn-secondary">Logout</a>
+
+<!-- Display received messages -->
+<h3>Messages Received</h3>
 <ul class="list-group my-4">
-    {% for message in messages %}
-    {% if message.recipient == user %}
-       <div class="message">
-        <p>{{message.content}}</p>
-       </div>
-       {% endif%}
+    {% for message in messages_received %}
         <li class="list-group-item">
-            <strong>{{ message.sender.username }}</strong>: {{ message.content }} 
+            <strong>From: {{ message.sender.username }}</strong>
+            <p>{{ message.content }}</p>
             <small class="text-muted float-right">{{ message.timestamp }}</small>
         </li>
+    {% empty %}
+        <li class="list-group-item">No messages received yet.</li>
+        {{message.content}}
     {% endfor %}
 </ul>
 
+<!-- Display sent messages -->
+<h3>Messages Sent</h3>
+<ul class="list-group my-4">
+    {% for message in messages_sent %}
+        <li class="list-group-item">
+            <strong>To: {{ message.receiver.username }}</strong>
+            <p>{{ message.content }}</p>
+            <small class="text-muted float-right">{{ message.timestamp }}</small>
+        </li>
+    {% empty %}
+        <li class="list-group-item">No messages sent yet.</li>
+    {% endfor %}
+</ul>
+
+<!-- Form to send a new message -->
 <h3>Send a New Message</h3>
 <form action="{% url 'messages' %}" method="post" class="border p-4 rounded">
     {% csrf_token %}
+    {{ form.as_p }}
     <div class="form-group">
-        <textarea class="form-control" name="content" rows="4" placeholder="Type your message here" required></textarea>
+        <!-- Assuming there's a form to select the receiver as well -->
+        
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+            {% endfor %}
+        </select>
     </div>
-    <button type="submit" class="btn btn-primary">Send</button>
+    <button type="submit" class="btn btn-primary mt-3">Send</button>
 </form>
 {% endblock %}

@@ -35,7 +35,22 @@ class UserAdmin(admin.ModelAdmin):
     send_message_to_parent.short_description = "Send message to selected parents"
     actions = [send_message_to_parent]
 
+
+
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('sender', 'receiver', 'content', 'timestamp','reply_to', 'view_replies')
+    list_filter = ('sender', 'receiver', 'timestamp')
+    search_fields = ('content', 'sender__username', 'receiver__username')
+
+    def view_replies(self, obj):
+        replies = obj.replies.all() 
+        if replies.exists():
+            return "\n".join([f"Reply from {reply.sender.username}: {reply.content}" for reply in replies])
+        return "No replies"
+    
+    view_replies.short_description = "Replies to this message"
+
 admin.site.register(User, UserAdmin)
-admin.site.register(Message)
+admin.site.register(Message,MessageAdmin)
 admin.site.register(ProgressUpdate)
 admin.site.register(Meeting)
