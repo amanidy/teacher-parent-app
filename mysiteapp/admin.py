@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import User, Message, ProgressUpdate, Meeting
 from django.contrib import messages
-from .forms import AdminUserCreationForm  # Make sure this form is defined in forms.py
+from .forms import AdminUserCreationForm  
 
 class UserAdmin(admin.ModelAdmin):
     form = AdminUserCreationForm

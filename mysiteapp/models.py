@@ -8,7 +8,8 @@ class User(AbstractUser):
         ('teacher', 'Teacher')
     ]
     
-    email = models.EmailField(unique=True, max_length=100)
+    
+    email = models.EmailField(blank=True,null=True)
     role = models.CharField(max_length=7, choices=ROLE_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     parent_to = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)

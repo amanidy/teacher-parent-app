@@ -6,7 +6,7 @@
 <h2>Messages</h2>
 <a href="{% url 'index' %}" class="btn btn-secondary">Logout</a>
 
-<!-- Display received messages -->
+
 <h3>Messages Received</h3>
 <ul class="list-group my-4">
     {% for message in messages_received %}
@@ -21,7 +21,7 @@
     {% endfor %}
 </ul>
 
-<!-- Display sent messages -->
+
 <h3>Messages Sent</h3>
 <ul class="list-group my-4">
     {% for message in messages_sent %}
@@ -35,13 +35,13 @@
     {% endfor %}
 </ul>
 
-<!-- Form to send a new message -->
+
 <h3>Send a New Message</h3>
 <form action="{% url 'messages' %}" method="post" class="border p-4 rounded">
     {% csrf_token %}
     {{ form.as_p }}
     <div class="form-group">
-        <!-- Assuming there's a form to select the receiver as well -->
+        
         
             {% for user in users %}
                 <option value="{{ user.id }}">{{ user.username }}</option>
