@@ -8,6 +8,18 @@ from .forms import MessageForm, ProgressUpdateForm, MeetingForm,AdminUserCreatio
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from datetime import datetime
+
+
+
+def get_greeting():
+    current_time = datetime.now().hour
+    if current_time < 12:
+        return "Good morning"
+    elif 12 <= current_time < 18:
+        return "Good Afternoon"
+    else:
+        return "Good Evening"
 
 
 def is_staff_user(user):
@@ -29,7 +41,12 @@ def register_user(request):
 
 @login_required
 def base(request):
-    return render(request, 'mysiteapp/base.html')
+    greeting = get_greeting()
+    context = {
+        'greeting': greeting,
+        'user_name': request.user.username, 
+    }
+    return render(request, 'mysiteapp/base.html',context)
 
 @user_passes_test(is_parent)
 @login_required

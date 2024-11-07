@@ -12,14 +12,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 
-from decouple import Config, Csv
 
-# Initialize Config to read from .env file
-config = Config()
+from decouple import config
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 AUTH_USER_MODEL = 'mysiteapp.User'
@@ -34,23 +33,16 @@ TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
 TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
 
 
-#export TWILIO_ACCOUNT_SID='your_account_sid'
-#export TWILIO_AUTH_TOKEN='your_auth_token'
-#export TWILIO_PHONE_NUMBER='your_twilio_phone_number'
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+SECRET_KEY = config('SECRET_KEY')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-uysc-l7zcs44ar$zmbcz41@$!5e@0(_m4pi_d6(a1meoocvg86'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
-# Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -93,8 +85,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
@@ -138,14 +129,7 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-if 'DATABASE_URL' in os.environ:
-    import dj_database_url
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-    DATABASES['default'] = dj_database_url.config(default=config('DATABASE_URL'))
 
-ALLOWED_HOSTS = ['mwalimoo.herokuapp.com', 'localhost', '127.0.0.1']
-
-DATABASE_URL = os.getenv('DATABASE_URL')
 
 
 # Internationalization
